@@ -26,6 +26,13 @@ function add({ scheme_name }) {
 }
 
 
+async function addStep(step) {
+  console.log('sdasdasdasdasd' + id);
+  const [id] = await db('steps').insert(step);
+
+  return findById(id);
+}
+
 
 
 module.exports = {
@@ -33,4 +40,5 @@ module.exports = {
   findById,
   findSteps,
   add,
+  addStep,
 };

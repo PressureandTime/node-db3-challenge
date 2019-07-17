@@ -3,6 +3,7 @@ const express = require('express');
 const Schemes = require('./scheme-model.js');
 
 const router = express.Router();
+const db = require('../dbConfig');
 
 // console.log(Schemes.find());
 
@@ -58,6 +59,16 @@ router.post('/', async (req, res) => {
   }
 });
 
+
+
+async function addStep(step, IdOfScheme, stepNumber) {
+
+  const [id] = await db('steps').insert({scheme_id:IdOfScheme, instructions:step.instructions, step_number:step.step_number });
+
+  return findById(id);
+}
+
+
 router.post('/:id/steps', async (req, res) => {
   const stepData = req.body;
   const { id } = req.params;
@@ -66,7 +77,7 @@ router.post('/:id/steps', async (req, res) => {
     const scheme = await Schemes.findById(id);
 
     if (scheme) {
-      const step = await Schemes.addStep(stepData, id);
+      const step = await addStep(stepData, id, stepNujmber);
       res.status(201).json(step);
     } else {
       res.status(404).json({ message: 'Could not find scheme with given id.' })
