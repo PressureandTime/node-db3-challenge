@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
     if (scheme) {
       res.json(scheme);
     } else {
-      res.status(404).json({ message: 'Could not find scheme with given id.' })
+      res.status(404).json({ message: 'Could not find scheme with given id.' });
     }
   } catch (err) {
     res.status(500).json({ message: 'Failed to get schemes' });
@@ -41,7 +41,9 @@ router.get('/:id/steps', async (req, res) => {
     if (steps.length) {
       res.json(steps);
     } else {
-      res.status(404).json({ message: 'Could not find steps for given scheme' })
+      res
+        .status(404)
+        .json({ message: 'Could not find steps for given scheme' });
     }
   } catch (err) {
     res.status(500).json({ message: 'Failed to get steps' });
@@ -59,16 +61,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-
-
-async function addStep(step, IdOfScheme, stepNumber) {
-
-  const [id] = await db('steps').insert({scheme_id:IdOfScheme, instructions:step.instructions, step_number:step.step_number });
-
-  return findById(id);
-}
-
-
 router.post('/:id/steps', async (req, res) => {
   const stepData = req.body;
   const { id } = req.params;
@@ -77,10 +69,10 @@ router.post('/:id/steps', async (req, res) => {
     const scheme = await Schemes.findById(id);
 
     if (scheme) {
-      const step = await addStep(stepData, id, stepNujmber);
+      const step = await Schemes.addStep(stepData, id);
       res.status(201).json(step);
     } else {
-      res.status(404).json({ message: 'Could not find scheme with given id.' })
+      res.status(404).json({ message: 'Could not find scheme with given id.' });
     }
   } catch (err) {
     res.status(500).json({ message: 'Failed to create new step' });

@@ -20,20 +20,16 @@ function findSteps(schemeId) {
     .where({ step_number: schemeId });
 }
 
-
 function add({ scheme_name }) {
   return db('schemes').insert({ scheme_name });
 }
 
-
-async function addStep(step) {
-  console.log('sdasdasdasdasd' + id);
-  const [id] = await db('steps').insert(step);
-
-  return findById(id);
+function addStep(step, scheme_id) {
+  const newStep = { ...step, scheme_id };
+  return db('steps')
+    .insert(newStep)
+    .then(() => findSteps(scheme_id));
 }
-
-
 
 module.exports = {
   find,
