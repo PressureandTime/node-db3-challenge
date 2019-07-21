@@ -15,10 +15,14 @@ WHERE Orders.OrderDate < '1997-09-01' LIMIT 161;
 SELECT Products.ProductName, OrderDetails.Quantity
 FROM Products JOIN OrderDetails
 ON Products.ProductID = OrderDetails.ProductID
-WHERE OrderDetails.OrderID = 10251 
+WHERE OrderDetails.OrderID = 10251
 ORDER BY Products.ProductName;
 
 ### Display the OrderID, CustomerName and the employee's LastName for every order. All columns should be labeled clearly. Displays 196 records.
+SELECT o.OrderID, c.CustomerName, e.LastName
+FROM Orders AS o JOIN Customers AS c ON o.CustomerID = c.CustomerID
+JOIN Employees
+AS e ON o.EmployeeID = e.EmployeeID LIMIT 196;
 
 ### (Stretch)  Displays CategoryName and a new column called Count that shows how many products are in each category. Shows 9 records.
 
